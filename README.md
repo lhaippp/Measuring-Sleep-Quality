@@ -37,6 +37,8 @@ A short overview of useful sleep datasets
 
 ## Sleep Scoring
 
+![sleep staging](./autosleepscorer.png)
+
 We choose a open-source library named `AutoSleepScorer` from https://github.com/skjerns/AutoSleepScorer to carry out the sleep staging process, because it's easy to leverage the pre-train model to test your own dataset.
 
 At the same time, we have another choice: `Deepsleepnet` from https://github.com/akaraspt/deepsleepnet which extracts features from row-EEG, but it lacks a pre-trained model, so we need it train the entire model ourselves.
