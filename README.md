@@ -101,7 +101,11 @@ The predictions will now be saved as `sample-psg.edf.csv`, where each row corres
 We can collect data from Biosignal plus which contains signals EEG, ECG, and EMG, and we can export the data in the format .txt. So in this part, we provide a peace of code to handle it. Data needs to be sampled with 100 Hz. EEG and EOG are high-pass filtered with 0.15 Hz and the EMG has a high-pass filter of 10 Hz. Data needs to be in the format `[epochs, 3000, 3]` where the last dimension is EEG, EMG and EOG.
 ```Python
 from sleepscorer import Classifier
-data = ... # load your python array, preprocessed
+import numpy as np
+bio_signal_plus = np.loadtxt("bio_signal_plus.txt")
+# replace with your channel number in the matrix
+test = bio_signal_plus[:,["channel one","channel two","channel three"]]
+data = test.reshape((epochs,3000,3))
 assert(data.ndim==3 and data.shape[1:]==(3000,3))
 
 clf = Classifier()
