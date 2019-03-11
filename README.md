@@ -37,7 +37,7 @@ A short overview of useful sleep datasets
 
 ## Sleep Scoring
 
-![sleep staging](./autosleepscorer.png)
+![sleep staging](picture/autosleepscorer.png)
 
 We choose a open-source library named `AutoSleepScorer` from https://github.com/skjerns/AutoSleepScorer to carry out the sleep staging process, because it's easy to leverage the pre-train model to test your own dataset.
 
@@ -154,110 +154,110 @@ During this project, we use three models:
 * lightGBM
 
 Below is the performance of each model in 3-criteria model :
-![light-deep-3](./light-deep-3.png)
-![short-long-3](./short-long-3.png)
+![light-deep-3](picture/light-deep-3.png)
+![short-long-3](picture/short-long-3.png)
 ![restful-restless-3](./restful-restless-3.png)
 and 2-criteria model:
-![light-deep-3](./light-deep-2.png)
-![short-long-3](./short-long-2.png)
-![restful-restless-3](./restful-restless-2.png)
+![light-deep-3](picture/light-deep-2.png)
+![short-long-3](picture/short-long-2.png)
+![restful-restless-3](picture/restful-restless-2.png)
 
 ### 1. Deep Neural Network 
-Here is the structure of the [DNN](./DNN.png)
-![dnn](./DNN.png)
+Here is the structure of the [DNN](picture/DNN.png)
+![dnn](picture/DNN.png)
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 dnn_3_criteria_light_deep.py
+python3 DNN/dnn_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 dnn_3_criteria_short_long.py
+python3 DNN/dnn_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 dnn_3_criteria_restless_restful.py
+python3 DNN/dnn_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 dnn_2_criteria_light_deep.py
+python3 DNN/dnn_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 dnn_2_criteria_short_long.py
+python3 DNN/dnn_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 dnn_2_criteria_restless_restful.py
+python3 DNN/dnn_2_criteria_restless_restful.py
 ```
 ### 2. Random Forest
-![confusion-3-criterias](./confusionM.png)
-![confusion-2-criterias](./confusion2.png)
+![confusion-3-criterias](picture/confusionM.png)
+![confusion-2-criterias](picture/confusion2.png)
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 rd_3_criteria_light_deep.py
+python3 Random_Forest/rd_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 rd_3_criteria_short_long.py
+python3 Random_Forest/rd_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 rd_3_criteria_restless_restful.py
+python3 Random_Forest/rd_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 rd_2_criteria_light_deep.py
+python3 Random_Forest/rd_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 rd_2_criteria_short_long.py
+python3 Random_Forest/rd_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 rd_2_criteria_restless_restful.py
+python3 Random_Forest/rd_2_criteria_restless_restful.py
 ```
 ### 3. lightGBM
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT_3_criteria_light_deep.py
+python3 GBDT/GBDT_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT_3_criteria_short_long.py
+python3 GBDT/GBDT_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT_3_criteria_restless_restful.py
+python3 GBDT/GBDT_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT_2_criteria_light_deep.py
+python3 GBDT/GBDT_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT_2_criteria_short_long.py
+python3 GBDT/GBDT_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT_2_criteria_restless_restful.py
+python3 GBDT/GBDT_2_criteria_restless_restful.py
 ```
 
 
