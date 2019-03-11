@@ -116,7 +116,7 @@ preds = clf.predict(data, classes=True)
 ```
 
 ## Core data from SHHS 
-We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: ![Report for sleep quality](Projet_ISA.pdf)
+We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: [Report for sleep quality](Projet_ISA.pdf)
 
 ### 1. Install Numpy
 Download and install Numpy from https://www.scipy.org/scipylib/download.html
