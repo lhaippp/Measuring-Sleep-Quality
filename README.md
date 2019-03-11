@@ -96,6 +96,21 @@ tools.show_sample_hypnogram('sample-psg.groundtruth.csv', start=960, stop=1800)
 ```
 The predictions will now be saved as `sample-psg.edf.csv`, where each row corresponds to one epoch (0=W, 1=S1, 2=S2, 3=SWS, 4=REM).
 
+## **Example for Biosignal+**
+
+We can collect data from Biosignal plus which contains signals EEG, ECG, and EMG, and we can export the data in the format .txt. So in this part, we provide a peace of code to handle it. Data needs to be sampled with 100 Hz. EEG and EOG are high-pass filtered with 0.15 Hz and the EMG has a high-pass filter of 10 Hz. Data needs to be in the format `[epochs, 3000, 3]` where the last dimension is EEG, EMG and EOG.
+```Python
+from sleepscorer import Classifier
+data = ... # load your python array, preprocessed
+assert(data.ndim==3 and data.shape[1:]==(3000,3))
+
+clf = Classifier()
+clf.download_weights()  # skip this if you already downloaded them.
+clf.load_cnn_model('./weights/cnn.hdf5')
+clf.load_rnn_model('./weights/rnn.hdf5)
+preds = clf.predict(data, classes=True)
+```
+
 ## Core data from SHHS 
 We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: XXXXXXXX
 
