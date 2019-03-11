@@ -156,7 +156,7 @@ During this project, we use three models:
 Below is the performance of each model in 3-criteria model :
 ![light-deep-3](picture/light-deep-3.png)
 ![short-long-3](picture/short-long-3.png)
-![restful-restless-3](./restful-restless-3.png)
+![restful-restless-3](picture/restful-restless-3.png)
 and 2-criteria model:
 ![light-deep-3](picture/light-deep-2.png)
 ![short-long-3](picture/short-long-2.png)
