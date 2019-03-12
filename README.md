@@ -53,6 +53,11 @@ Open a command line and install tensorflow via `pip install tensorflow` or via `
 
 Personally, I recommend that you install the environment with conda.
 
+### 2. Install virtualenv
+`pip install virtualenv`
+To create an virtual environment, you can execute
+`virtualenv ENV`
+
 ### 3. Install AutoSleepScorer
 Clone and install this repository via pip:
 `pip install git+https://github.com/skjerns/AutoSleepScorer`
