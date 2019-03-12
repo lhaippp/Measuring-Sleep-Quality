@@ -54,7 +54,12 @@ Pandas
 Sklearn
 Matplotlib
 ```
+Firstly clone our project: `git clone https://github.com/lhaippp/Measuring-Sleep-Quality` 
+
+Next enter the project: `cd Measuring-Sleep-Quality`
+
 To configure the environment, use `chmod +x set-environment.sh` and `source set-environment.sh`
+
 If success, you'll see a result like below:
 ```
 ****************************************************************
