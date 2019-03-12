@@ -8,7 +8,42 @@ Our project is divided into three phases:
 2. Data mining process on SHHS core datas.
 3. Design of sleep quality evaluation model
 ## Getting Started
-### Prerequisites
+
+
+## Sleep Dataset
+
+A short overview of useful sleep datasets
+
+| Abbreviation                                                                                                                                 | Study Name                                     | Recordings | Condition            |
+|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|------------|----------------------|
+| [EDFx](https://physionet.nlm.nih.gov/pn4/sleep-edfx/)                                                                                        | The Sleep-EDF Database                         | 153         | healthy              |      
+| [SHHS](https://sleepdata.org/datasets/shhs) | Multi-cohort study focused on sleep-disordered breathing and cardiovascular outcomes. | 5804 | healthy&insomnia patients |        
+| [more see here...](http://1uc15120fenp48is1xxuutiq-wpengine.netdna-ssl.com/wp-content/uploads/2018/04/Publicallyavailablesleepdatasets.xlsx) |                                                |            |                      
+
+
+## Sleep Scoring
+
+We choose a open-source library named `AutoSleepScorer` from https://github.com/skjerns/AutoSleepScorer to carry out the sleep staging process, because it's easy to leverage the pre-train model to test your own dataset.
+
+At the same time, we have another choice: `Deepsleepnet` from https://github.com/akaraspt/deepsleepnet which extracts features from row-EEG, but it lacks a pre-trained model, so we need it train the entire model ourselves.
+
+### 1. Install Anaconda
+Download and install Anaconda with Python 3.6 64 bit from https://www.anaconda.com/download/#download
+
+If you already have a working Python 3.x environment with Anaconda you can skip this step.
+
+### 2. Install Git
+To install git, use: `conda install git`
+
+### 3. Set a Virtual Environment
+Open a command line and input: `conda create -n your_env_name python=3.6`.
+
+To activate this environment, use: `source activate your_env_name`
+
+To deactivate an active environment, use: `source deactivate`
+
+### 3. Configure the Environment
+#### requisites
 
 ```
 Python3
@@ -19,50 +54,20 @@ Pandas
 Sklearn
 Matplotlib
 ```
-## Sleep Dataset
-
-A short overview of useful sleep datasets
-
-| Abbreviation                                                                                                                                 | Study Name                                     | Recordings | Condition            |
-|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|------------|----------------------|
-| [CCSHS](https://sleepdata.org/datasets/ccshs)                                                                                                | Cleveland Children's Sleep and Health Study    | 515        | health, young        |
-| [ISRUC-SLEEP](https://sleeptight.isr.uc.pt/ISRUC_Sleep/)                                                                                     | ISRUC-SLEEP Dataset                            | 126        | healthy + disordered |
-| [EDFx](https://physionet.nlm.nih.gov/pn4/sleep-edfx/)                                                                                        | The Sleep-EDF Database                         | 153         | healthy              |
-| [UCDDB](https://physionet.org/pn3/ucddb/)                                                                                                    | University College Dublin Sleep Apnea Database | 25         | sleep apnoe          |
-| [DREAMS](http://www.tcts.fpms.ac.be/~devuyst/Databases/DatabaseSubjects/) | The DREAMS Subjects Database | 20 | healthy |             
-| [SDRC](https://data.mendeley.com/datasets/3hx58k232n/4) | study on psychophysiological insomnia | 60 | healthy&insomnia patients |       
-| [SHHS](https://sleepdata.org/datasets/shhs) | Multi-cohort study focused on sleep-disordered breathing and cardiovascular outcomes. | 5804 | healthy&insomnia patients |        
-| [more see here...](http://1uc15120fenp48is1xxuutiq-wpengine.netdna-ssl.com/wp-content/uploads/2018/04/Publicallyavailablesleepdatasets.xlsx) |                                                |            |                      
-
-
-## Sleep Scoring
-
-![sleep staging](picture/autosleepscorer.png)
-
-We choose a open-source library named `AutoSleepScorer` from https://github.com/skjerns/AutoSleepScorer to carry out the sleep staging process, because it's easy to leverage the pre-train model to test your own dataset.
-
-At the same time, we have another choice: `Deepsleepnet` from https://github.com/akaraspt/deepsleepnet which extracts features from row-EEG, but it lacks a pre-trained model, so we need it train the entire model ourselves.
-
-### 1. Install Anaconda
-Download and install Anaconda with Python 3.6 64 bit from https://www.anaconda.com/download/#download
-
-If you already have a working Python 3.x environment you can skip this step.
-
-### 2. Install Tensorflow
-Open a command line and install tensorflow via `pip install tensorflow` or via `conda install -c conda-forge tensorflow`.
-
-Personally, I recommend that you install the environment with conda.
-
-### 2. Install virtualenv
-`pip install virtualenv`
-To create an virtual environment, you can execute
-`virtualenv ENV`
+To configure the environment, use `chmod +x set-environment.sh` and `source set-environment.sh`
+If success, you'll see a result like below:
+```
+****************************************************************
+Congratulations! All the environment are installed successfully
+****************************************************************
+Now you can view and edit the project!
+****************************************************************
+```
 
 ### 3. Install AutoSleepScorer
 Clone and install this repository via pip:
 `pip install git+https://github.com/skjerns/AutoSleepScorer`
 
-If you get an error that`git` is not installed, you can install it using the command line `conda install git`
 
 ## **Mini example**
 
@@ -101,33 +106,9 @@ tools.show_sample_hypnogram('sample-psg.groundtruth.csv', start=960, stop=1800)
 ```
 The predictions will now be saved as `sample-psg.edf.csv`, where each row corresponds to one epoch (0=W, 1=S1, 2=S2, 3=SWS, 4=REM).
 
-## **Example for Biosignal+**
-
-We can collect data from Biosignal plus which contains signals EEG, ECG, and EMG, but this machine cannot collect EOG datas, so the first solution is to replace EOG with ECG, but it affects the performance of our sleep staging algorithm, and we'd like to retrain a new neural network in the future. What's more we can export the data in the format .txt or in the format .edf. And in this part, we provide a peace of code to handle the txt files. Data needs to be sampled with 100 Hz. EEG and EOG are high-pass filtered with 0.15 Hz and the EMG has a high-pass filter of 10 Hz. Data needs to be in the format `[epochs, 3000, 3]` where the last dimension is EEG, EMG and EOG.
-```Python
-from sleepscorer import Classifier
-import numpy as np
-bio_signal_plus = np.loadtxt("bio_signal_plus.txt")
-# replace with your channel number in the matrix
-test = bio_signal_plus[:,["channel one","channel two","channel three"]]
-data = test.reshape((epochs,3000,3))
-assert(data.ndim==3 and data.shape[1:]==(3000,3))
-
-clf = Classifier()
-clf.download_weights()  # skip this if you already downloaded them.
-clf.load_cnn_model('./weights/cnn.hdf5')
-clf.load_rnn_model('./weights/rnn.hdf5)
-preds = clf.predict(data, classes=True)
-```
-
 ## Core data from SHHS 
-We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: [Report for sleep quality](Projet_ISA.pdf)
+We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: XXXXXXXX
 
-### 1. Install Numpy
-Download and install Numpy from https://www.scipy.org/scipylib/download.html
-
-### 2. Install Pandas
-Download and install Pandas from https://pandas.pydata.org/
 
 ## **Mini example**
 
@@ -159,110 +140,110 @@ During this project, we use three models:
 * lightGBM
 
 Below is the performance of each model in 3-criteria model :
-![light-deep-3](picture/light-deep-3.png)
-![short-long-3](picture/short-long-3.png)
-![restful-restless-3](picture/restful-restless-3.png)
+![light-deep-3](./light-deep-3.png)
+![short-long-3](./short-long-3.png)
+![restful-restless-3](./restful-restless-3.png)
 and 2-criteria model:
-![light-deep-3](picture/light-deep-2.png)
-![short-long-3](picture/short-long-2.png)
-![restful-restless-3](picture/restful-restless-2.png)
+![light-deep-3](./light-deep-2.png)
+![short-long-3](./short-long-2.png)
+![restful-restless-3](./restful-restless-2.png)
 
 ### 1. Deep Neural Network 
-Here is the structure of the [DNN](picture/DNN.png)
-![dnn](picture/DNN.png)
+Here is the structure of the [DNN](./DNN.png)
+![dnn](./DNN.png)
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 DNN/dnn_3_criteria_light_deep.py
+python3 dnn_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 DNN/dnn_3_criteria_short_long.py
+python3 dnn_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 DNN/dnn_3_criteria_restless_restful.py
+python3 dnn_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 DNN/dnn_2_criteria_light_deep.py
+python3 dnn_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 DNN/dnn_2_criteria_short_long.py
+python3 dnn_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 DNN/dnn_2_criteria_restless_restful.py
+python3 dnn_2_criteria_restless_restful.py
 ```
 ### 2. Random Forest
-![confusion-3-criterias](picture/confusionM.png)
-![confusion-2-criterias](picture/confusion2.png)
+![confusion-3-criterias](./confusionM.png)
+![confusion-2-criterias](./confusion2.png)
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 Random_Forest/rd_3_criteria_light_deep.py
+python3 rd_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 Random_Forest/rd_3_criteria_short_long.py
+python3 rd_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 Random_Forest/rd_3_criteria_restless_restful.py
+python3 rd_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 Random_Forest/rd_2_criteria_light_deep.py
+python3 rd_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 Random_Forest/rd_2_criteria_short_long.py
+python3 rd_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 Random_Forest/rd_2_criteria_restless_restful.py
+python3 rd_2_criteria_restless_restful.py
 ```
 ### 3. lightGBM
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT/GBDT_3_criteria_light_deep.py
+python3 GBDT_3_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT/GBDT_3_criteria_short_long.py
+python3 GBDT_3_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 3 criterias:
 ```Python
 # rating 5 -> rating 3
-python3 GBDT/GBDT_3_criteria_restless_restful.py
+python3 GBDT_3_criteria_restless_restful.py
 ```
 * to evaluate quality of sleep light/deep from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT/GBDT_2_criteria_light_deep.py
+python3 GBDT_2_criteria_light_deep.py
 ```
 * to evaluate quality of sleep short/long from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT/GBDT_2_criteria_short_long.py
+python3 GBDT_2_criteria_short_long.py
 ```
 * to evaluate quality of sleep restless/restful from 2 criterias:
 ```Python
 # rating 5 -> rating 2
-python3 GBDT/GBDT_2_criteria_restless_restful.py
+python3 GBDT_2_criteria_restless_restful.py
 ```
 
 
