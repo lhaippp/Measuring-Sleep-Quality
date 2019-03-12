@@ -1,5 +1,5 @@
 #!/bin/sh
-pip3 install numpy
+conda install -c anaconda numpy 
 conda install pandas
 conda install scikit-learn
 pip3 install keras
