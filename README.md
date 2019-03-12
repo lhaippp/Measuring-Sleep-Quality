@@ -76,16 +76,6 @@ Clone and install this repository via pip:
 
 ## **Mini example**
 
-For quick classification
-
-```Python
-from sleepscorer import Scorer
-file = "eeg_filename" #link to the EEG header or EEG file
-scorer = Scorer([file], hypnograms=True)
-scorer.run()
-```
-## **Advanced example**
-
 First we download a sample file from the EDFx database
 
 ```Python
@@ -99,6 +89,7 @@ Now we can start the Scorer using a list of EEG files.
 Instead of an EEG-filename we can also set advanced options using a `SleepData` object
 ```Python
 # create a SleepData object 
+from sleepscorer import tools
 from sleepscorer import Scorer, SleepData
 file = SleepData('sample-psg.edf', start = 2880000, stop = 5400000, 
 							  channels={'EEG':'EEG Fpz-Cz', 'EMG':'EMG submental', 
@@ -110,6 +101,19 @@ scorer.run()
 tools.show_sample_hypnogram('sample-psg.groundtruth.csv', start=960, stop=1800)
 ```
 The predictions will now be saved as `sample-psg.edf.csv`, where each row corresponds to one epoch (0=W, 1=S1, 2=S2, 3=SWS, 4=REM).
+
+## **Classification example**
+
+First of all, we need to open jupyter notebook, because we want to see the result of sleep staging: `jupyter notebook`. Then create a python3 file
+
+For quick classification
+
+```Python
+from sleepscorer import Scorer
+file = "eeg_filename" #link to the EEG header or EEG file
+scorer = Scorer([file], hypnograms=True)
+scorer.run()
+```
 
 ## Core data from SHHS 
 We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: XXXXXXXX
