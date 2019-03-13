@@ -32,7 +32,7 @@ Download and install Anaconda with Python 3.6 64 bit from https://www.anaconda.c
 
 If you already have a working Python 3.x environment with Anaconda you can skip this step.
 
-And you can open the Anaconda environment by clicking Anaconda Prompt
+And you can open the Anaconda environment by searching `Anaconda Prompt`
 
 ### 2. Install Git
 To install git, use: `conda install git`
