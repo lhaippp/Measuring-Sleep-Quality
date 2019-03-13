@@ -189,6 +189,10 @@ python3 Random_Forest/global_RF_3.py
 python3 GBDT/global_lightGBM_3.py
 ```
 
+##Confusion Matrix
+![bad-good-cm](picture/confusion_Matrix_Binary_LargeNumber.png)
+![bad-ordi-good-cm](picture/confusion_Matrix_3_LargeNumber.png)
+
 
 
 
