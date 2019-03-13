@@ -163,6 +163,9 @@ Below is the performance of each model in `Global Sleep Quality [bad,ordinary,go
 
 ![Global Sleep Quality](picture/global-sleep-quality.png)
 
+Below is the performance of each model in `Global Sleep Quality [bad,good]` :
+![Global Sleep Quality](Global_Sleep_Quality_Binary.png)
+
 
 
 ### 1. Deep Neural Network 
