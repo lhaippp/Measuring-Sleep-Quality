@@ -69,14 +69,16 @@ Now you can view and edit the project!
 ****************************************************************
 ```
 
-### 3. Install AutoSleepScorer
+### 4. Install AutoSleepScorer
 Clone and install this repository via pip:
 `pip install git+https://github.com/skjerns/AutoSleepScorer`
 
 
 ## **Mini example**
 
-First we download a sample file from the EDFx database
+First of all, we need to open jupyter notebook, because we want to see the result of sleep staging: `jupyter notebook`. Then create a python3 file
+
+Then we download a sample file from the EDFx database
 
 ```Python
 from sleepscorer import tools
@@ -104,7 +106,6 @@ The predictions will now be saved as `sample-psg.edf.csv`, where each row corres
 
 ## **Classification example**
 
-First of all, we need to open jupyter notebook, because we want to see the result of sleep staging: `jupyter notebook`. Then create a python3 file
 
 For quick classification
 
@@ -115,13 +116,26 @@ scorer = Scorer([file], hypnograms=True)
 scorer.run()
 ```
 
+## Example for Biosignal+
+We can collect data from Biosignal plus which contains signals EEG, ECG, and EMG, but this machine cannot collect EOG datas, so the first solution is to replace EOG with ECG, but it affects the performance of our sleep staging algorithm, and we'd like to retrain a new neural network in the future. What's more we can export the data in the format .txt or in the format .edf. And in this part, we provide a peace of code to handle the txt files. Data needs to be sampled with 100 Hz. EEG and EOG are high-pass filtered with 0.15 Hz and the EMG has a high-pass filter of 10 Hz. Data needs to be in the format `[epochs, 3000, 3]` where the last dimension is EEG, EMG and EOG.
+```Python
+from sleepscorer import Classifier
+import numpy as np
+bio_signal_plus = np.loadtxt("bio_signal_plus.txt")
+# replace with your channel number in the matrix
+test = bio_signal_plus[:,["channel one","channel two","channel three"]]
+data = test.reshape((epochs,3000,3))
+assert(data.ndim==3 and data.shape[1:]==(3000,3))
+
+clf = Classifier()
+clf.download_weights()  # skip this if you already downloaded them.
+clf.load_cnn_model('./weights/cnn.hdf5')
+clf.load_rnn_model('./weights/rnn.hdf5')
+preds = clf.predict(data, classes=True)
+```
+
 ## Core data from SHHS 
-We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that if you need write an application to get this dataset. If you want to get more details, you can have a look at our project report here: XXXXXXXX
-
-
-## **Mini example**
-
-For some authorization reasons, we can't put the data set here, we can only provide the code for processing.
+We can find a well-processed dataset from https://sleepdata.org/datasets/shhs/files/datasets which contains `5804` rows and `1279` columns. But the problem is that you need write an application to get this dataset, for some authorization reasons, we can't put the data set here, we can only provide the code for processing. If you want to get more details, please have a look at our report here: XXXXXXXX
 
 In order to get an available dataset for the next training step, we need to do data cleaning and feature engineering:
 ```Python
@@ -130,127 +144,42 @@ python3 preprocessing.py
 ```
 Now you get a new dataset named `SleepQuality_After_Cleaning.csv`
 
-Next, we're going to do aggregations, we provide two method who convert 5 criterias to 3 criterias and 5 criterias to 1 criterias, for example:
-* for sleep quality light/deep: `ranting 1-5` to `ranting 1-3`, here `1` represent `bad sleep`, `2` represent `normal sleep`, and `3` represent `good sleep`
-```Python
-# rating 5 -> rating 3
-python3 ranting5_to_3.py
-```
-* for sleep quality light/deep: `ranting 1-5` to `ranting 1-2`, here `1` represent `bad sleep`, and `2` represent `good sleep`
-```Python
-# rating 5 -> rating 2
-python3 ranting5_to_2.py
-```
-
 ## Modeling
-During this project, we use three models:
+During this project, we use four models:
+* Logistic Regression
 * Deep Neural Network 
 * Random Forest
 * lightGBM
 
-Below is the performance of each model in 3-criteria model :
-![light-deep-3](picture/light-deep-3.png)
-![short-long-3](picture/short-long-3.png)
-![restful-restless-3](picture/restful-restless-3.png)
-and 2-criteria model:
-![light-deep-3](picture/light-deep-2.png)
-![short-long-3](picture/short-long-2.png)
-![restful-restless-3](picture/restful-restless-2.png)
+And for each algorithm, we provide 4 different models:
+* Global Sleep Quality
+* Sleep Quality: light/deep
+* Sleep Quality: short/long
+* Sleep Quality: restful/restless
+
+Below is the performance of each model in `Global Sleep Quality [bad,ordinary,good]` :
+
+![Global Sleep Quality](picture/global-sleep-quality.png)
+
+
 
 ### 1. Deep Neural Network 
 Here is the structure of the [DNN](picture/DNN.png)
 ![dnn](picture/DNN.png)
-* to evaluate quality of sleep light/deep from 3 criterias:
+* to evaluate sleep quality:
 ```Python
-# rating 5 -> rating 3
-python3 dnn_3_criteria_light_deep.py
+python3 DNN/global_DNN_3.py
 ```
-* to evaluate quality of sleep short/long from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 dnn_3_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 dnn_3_criteria_restless_restful.py
-```
-* to evaluate quality of sleep light/deep from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 dnn_2_criteria_light_deep.py
-```
-* to evaluate quality of sleep short/long from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 dnn_2_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 dnn_2_criteria_restless_restful.py
-```
+
 ### 2. Random Forest
-![confusion-3-criterias](picture/confusionM.png)
-![confusion-2-criterias](picture/confusion2.png)
+
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
-# rating 5 -> rating 3
-python3 rd_3_criteria_light_deep.py
+python3 Random_Forest/global_RF_3.py
 ```
-* to evaluate quality of sleep short/long from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 rd_3_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 rd_3_criteria_restless_restful.py
-```
-* to evaluate quality of sleep light/deep from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 rd_2_criteria_light_deep.py
-```
-* to evaluate quality of sleep short/long from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 rd_2_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 rd_2_criteria_restless_restful.py
-```
+
 ### 3. lightGBM
 * to evaluate quality of sleep light/deep from 3 criterias:
 ```Python
-# rating 5 -> rating 3
-python3 GBDT_3_criteria_light_deep.py
-```
-* to evaluate quality of sleep short/long from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 GBDT_3_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 3 criterias:
-```Python
-# rating 5 -> rating 3
-python3 GBDT_3_criteria_restless_restful.py
-```
-* to evaluate quality of sleep light/deep from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 GBDT_2_criteria_light_deep.py
-```
-* to evaluate quality of sleep short/long from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 GBDT_2_criteria_short_long.py
-```
-* to evaluate quality of sleep restless/restful from 2 criterias:
-```Python
-# rating 5 -> rating 2
-python3 GBDT_2_criteria_restless_restful.py
+python3 GBDT/global_lightGBM_3.py
 ```
