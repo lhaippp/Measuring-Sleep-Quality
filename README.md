@@ -32,7 +32,7 @@ Download and install Anaconda with Python 3.6 64 bit from https://www.anaconda.c
 
 If you use Windows to install Anaconda, please take a look at picture below:
 
-
+![Anaconda](picture/anaconda1.PNG)
 
 If you already have a working Python 3.x environment with Anaconda you can skip this step.
 
