@@ -30,9 +30,13 @@ At the same time, we have another choice: `Deepsleepnet` from https://github.com
 ### 1. Install Anaconda
 Download and install Anaconda with Python 3.6 64 bit from https://www.anaconda.com/download/#download
 
+If you use Windows to install Anaconda, please take a look at picture below:
+
+
+
 If you already have a working Python 3.x environment with Anaconda you can skip this step.
 
-And you can open the Anaconda environment by searching `Anaconda Prompt`
+Tips: If you use Windows, then you need to open with `Powershell`
 
 ### 2. Install Git
 To install git, use: `conda install git`
@@ -40,9 +44,9 @@ To install git, use: `conda install git`
 ### 3. Set a Virtual Environment
 Open a command line and input: `conda create -n your_env_name python=3.6`.
 
-To activate this environment, use: `source activate your_env_name`
+To activate this environment, use: `source activate your_env_name` for Linux and `activate your_env_name` for Windows
 
-To deactivate an active environment, use: `source deactivate`
+To deactivate an active environment, use: `source deactivate` for Linux and `deactivate` for Windows
 
 ### 3. Configure the Environment
 #### requisites
@@ -60,7 +64,7 @@ Firstly clone our project: `git clone https://github.com/lhaippp/Measuring-Sleep
 
 Next enter the project: `cd Measuring-Sleep-Quality`
 
-To configure the environment, use `chmod +x set-environment.sh` and `source set-environment.sh`
+To configure the environment, use `chmod +x set-environment.sh` and `source set-environment.sh` for Linux
 
 If success, you'll see a result like below:
 ```
@@ -71,6 +75,27 @@ Now you can view and edit the project!
 ****************************************************************
 ```
 
+If you use Windows, below are the commands:
+```
+conda install -c anaconda numpy 
+
+conda install pandas
+
+conda install scikit-learn
+
+pip3 install keras
+
+conda install -c anaconda seaborn 
+
+conda install -c conda-forge tensorflow 
+
+python -m pip install -U matplotlib
+
+conda install -c conda-forge lightgbm 
+```
+
+
+
 ### 4. Install AutoSleepScorer
 Clone and install this repository via pip:
 `pip install git+https://github.com/skjerns/AutoSleepScorer`
@@ -78,7 +103,9 @@ Clone and install this repository via pip:
 
 ## **Mini example**
 
-First of all, we need to open jupyter notebook, because we want to see the result of sleep staging: `jupyter notebook`. Then create a python3 file
+First of all, we need to open jupyter notebook, because we want to see the result of sleep staging: `jupyter notebook`. 
+
+Then create a python3 file
 
 Then we download a sample file from the EDFx database
 
