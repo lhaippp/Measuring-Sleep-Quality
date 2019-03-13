@@ -175,13 +175,13 @@ python3 DNN/global_DNN_3.py
 
 ### 2. Random Forest
 
-* to evaluate quality of sleep light/deep from 3 criterias:
+* to evaluate sleep quality:
 ```Python
 python3 Random_Forest/global_RF_3.py
 ```
 
 ### 3. lightGBM
-* to evaluate quality of sleep light/deep from 3 criterias:
+* to evaluate sleep quality:
 ```Python
 python3 GBDT/global_lightGBM_3.py
 ```
