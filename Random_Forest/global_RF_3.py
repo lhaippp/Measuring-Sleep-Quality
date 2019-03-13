@@ -93,7 +93,7 @@ def plot_confusion_matrix(cm, title='Confusion Matrix', cmap=plt.cm.binary):
     plt.yticks(xlocations, labels)
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    
+'''    
 labels = ['Bad Sleep', 'Ordinary Sleep', 'Good Sleep']
 tick_marks = np.array(range(len(labels))) + 0.5
 np.set_printoptions(precision=2)
@@ -117,7 +117,7 @@ plt.gcf().subplots_adjust(bottom=0.15)
 plot_confusion_matrix(cm_normalized, title='Normalized confusion matrix')
 # show confusion matrix
 plt.show()
-
+'''
 y_pred=clf.predict(X_test)
 print('accuracy_score')
 print(accuracy_score(y_test,y_pred))
