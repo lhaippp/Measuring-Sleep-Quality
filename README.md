@@ -63,7 +63,9 @@ Firstly clone our project: `git clone https://github.com/lhaippp/Measuring-Sleep
 
 Next enter the project: `cd Measuring-Sleep-Quality`
 
-To configure the environment, use `chmod +x set-environment.sh` and `source set-environment.sh` for Linux
+To configure the environment:
+
+If you use Linux, please use `chmod +x set-environment.sh` and `source set-environment.sh` for Linux
 
 If success, you'll see a result like below:
 ```
