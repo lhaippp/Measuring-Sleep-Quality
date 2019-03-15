@@ -48,7 +48,6 @@ To activate this environment, use: `source activate your_env_name` for Linux and
 
 To deactivate an active environment, use: `source deactivate` for Linux and `deactivate` for Windows
 
-### 3. Configure the Environment
 #### requisites
 
 ```
